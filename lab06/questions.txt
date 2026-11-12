@@ -1,0 +1,29 @@
+1. Why does the test runner use fgets() to read the test plan?
+  We use fgets() because in the while loop it is able to read each line into the buffer which are the commands we test later in the code. Plus sizeof(buffer) prevents buffer from overflowing by telling fgets() how many characters it can read.
+
+2. Why must each command be parsed into an argument array before calling execvp()?
+  Each command must be parsed into an argument array before calling execvp() because, execvp() would read "ls -l" as the entire executable name, however for "ls -l" the array allows execvp() to see "ls" as the executable name since it is one element in the array and "-l" as the argument since it is the next element in the array.
+
+
+3. What values can fork() return, and what does each value mean?
+  fork() returns 0 if the code is running in the child process, -1 is returned if a child process failed to be created, and then a positive integer denotes the code is running in the parent process and returned value is the child's pid.
+
+
+4. What happens to the child process when execvp() succeeds?
+  When execvp() succeeds, the calls after the execvp() call are not executed and the child process executes the requested executable.
+
+
+5. Why must the parent call wait() before launching the next test?
+  The parent must wait before launching the next test because that way the commands are executed in the right order one after the other instead of all at once. Additionally, wait allows the parent to obtain info on how the child terminated which when combined with the status argument's info about the child's termination, allows WIFEXITED() and WEXITSTATUS() to determine if the test was a pass or fail.
+
+
+6. How does the test runner determine whether a test passed or failed?
+  WIFEXITED(status) checks the status argument to determine if the child terminated normally, which when combined with WEXITSTATUS(status), describes a passing test if the child terminated normally and the exit value was 0. If the child didn't terminate normally or the exit value wasn't 0 then the test was a fail.
+
+
+7. What should happen when a test program cannot be executed? Explain why the runner should continue or stop.
+  When a test program cannot be executed the runner should continue to the next since it is possible for other tests to still run successfully. Plus the failed test program will be documented which may allow for debugging.
+
+
+8. In a real-life test engineering scenario, what problems could arise if the parent launched all tests without waiting for them to finish?
+  In a real-life test engineering scenario it is possible that the results of each test are unreadable since they happen all at once, it's possible tests that are reliant on previous tests fail, the tests may finish in the wrong order, and there might be a conflicting use of resources especially if the tests modify the same files.

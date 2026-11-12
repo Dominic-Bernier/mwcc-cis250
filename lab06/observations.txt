@@ -1,0 +1,28 @@
+Experiment 1 — Normal execution
+Run the test runner using the original tests.txt file. Verify that the tests execute in the order specified.
+
+[Every test was successful and in order with the test summary producing 5 executed tests, 5 passed tests, and 0 failed tests.]
+
+
+Experiment 2 — Test plan comments
+Add a blank line and a comment beginning with # to tests.txt. Verify that neither is treated as a test command.
+
+[The test runner worked successfully in skipping the blank line and # comment line. Resulted in 5 executed, 5 passed, and 0 failed tests.]
+
+Experiment 3 — Failed test
+Add the following line to tests.txt:
+
+invalid_test_program
+Verify that the runner reports a failure and continues to the next test.
+
+[The commands before and after invalid_test_program executed properly, a failure was reported at the line with invalid_test_program and then execution resumed resulting in 6 executed tests 5 passed and 1 failed.]
+
+Experiment 4 — Reorder tests
+Move date to the beginning of the file and pwd to the end. Verify that the execution order follows the test plan.
+
+[Date was the first command that ran and pwd was the last as expected.]
+
+Experiment 5 — Missing test plan
+Temporarily rename tests.txt and run the program. Verify that the runner reports the file-opening error.
+
+[I renamed the file to testsNew.txt which when I ran test_runner resulted in: "Error Thrown [Couldn't open tests.txt]: No such file or directory"]
